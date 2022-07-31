@@ -8,6 +8,7 @@ import java.util.stream.IntStream;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.env.Environment;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.client.RestTemplate;
@@ -27,8 +28,9 @@ public class LiveApi {
 	private ProjectConfig projectConfig;
 	
 	@GetMapping("/live-check")
-	public String liveCheck(@RequestParam(required = false) Integer sleep) throws Exception {
-		log.info("liveCheck:: " + sleep);
+	public String liveCheck(@RequestParam(required = false) Integer sleep,
+			@RequestHeader("my-app-correlation-id") String correlationId) throws Exception {
+		log.info("liveCheck:: " + sleep + " - correlationId:: " + correlationId);
 		if(sleep != null) {
 			Thread.sleep(sleep*1000);
 		}
